@@ -1,0 +1,5 @@
+*.class
+target/classes/elvis/lock/LowerLock.class
+.idea/vcs.xml
+.idea/workspace.xml
+*.class
