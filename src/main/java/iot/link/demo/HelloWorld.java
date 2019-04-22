@@ -22,9 +22,13 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 演示从云端初始化一台虚拟设备
+ */
 public class HelloWorld {
     private static final String TAG = "HelloWorld";
 
+    //ProductKey DeviceName
     private String pk, dn;
     private ThingSample thingTestManager = null;
 
@@ -47,6 +51,9 @@ public class HelloWorld {
             ALog.e(TAG, "main - deviceInfo format error.");
             return;
         }
+        /**
+         * 从云端拿到虚拟机对象
+         */
         if (StringUtils.isEmptyString(deviceInfoData.deviceSecret)) {
             manager.deviceRegister(deviceInfoData);
             ALog.d(TAG, "测试一型一密动态注册，只测试动态注册");
@@ -97,6 +104,10 @@ public class HelloWorld {
         params.propertyValues = propertyValues;
 
         thingTestManager = new ThingSample(pk, dn);
+        /**
+         * 从云端获取对象,成功后调用回调方法
+         * 回调方法executeScheduler调用定时器
+         */
         LinkKit.getInstance().init(params, new ILinkKitConnectListener() {
             public void onError(AError aError) {
                 ALog.e(TAG, "Init Error error=" + aError);
@@ -110,6 +121,7 @@ public class HelloWorld {
     }
 
     boolean testDeinit = false;
+
     /**
      * 定时执行
      * @param deviceInfoData
@@ -172,7 +184,7 @@ public class HelloWorld {
 
     /**
      * 动态注册示例代码
-     * 1.现在云端创建产品和设备；
+     * 1.先在云端创建产品和设备；
      * 2.在云端开启动态注册；
      * 3.填入pk、dn、ps；
      * 4.调用该方法；

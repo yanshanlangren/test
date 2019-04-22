@@ -40,6 +40,9 @@ public class MqttSample extends BaseSample {
 
         /**
          * 设置请求的 qos
+         * Qos0:发送者只发送一次消息，不进行重试，Broker不会返回确认消息
+         * Qos1:发送者最少发送一次消息，确保消息到达Broker，Broker需要返回确认消息PUBACK
+         * Qos2:Qos2使用两阶段确认来保证消息的不丢失和不重复
          */
         request.qos = 0;
         // 更新标签 仅做测试

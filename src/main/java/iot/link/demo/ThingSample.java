@@ -36,6 +36,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+/**
+ * 物模型对象示例
+ */
 public class ThingSample extends BaseSample {
     private static final String TAG = "ThingSample";
 
