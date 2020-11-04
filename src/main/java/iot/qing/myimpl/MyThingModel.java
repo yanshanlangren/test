@@ -1,51 +1,65 @@
 package iot.qing.myimpl;
 
-import iot.qing.Property;
-import iot.qing.ThingModel;
+import iot.qing.beans.EventBase;
+import iot.qing.beans.PropertyBase;
+import iot.qing.beans.ServiceBase;
+import iot.qing.interfaces.EventManagerBase;
+import iot.qing.interfaces.PropertyManagerBase;
+import iot.qing.interfaces.ServiceManagerBase;
+import iot.qing.interfaces.ThingModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class MyThingModel extends ThingModel<String, String>{
+public class MyThingModel implements ThingModel{
+
+    //属性管理器
+    public PropertyManagerBase propertyManager = null;
+    //服务管理器
+    public ServiceManagerBase serviceManager = null;
+    //事件管理器
+    public EventManagerBase eventManager = null;
 
     public MyThingModel(){
-        this.serviceManager = new MyService();
-        this.properties = new ArrayList<Property<String, String>>();
+        this.serviceManager = new MyServiceManager();
+        this.propertyManager = new MyPropertyManager();
         this.eventManager = new MyEventManager();
     }
 
-    private List<Property<String, String>> getPropertyList(){
-        return this.properties;
+    private List<PropertyBase> getPropertyList(){
+        return propertyManager.getProperties();
     }
 
-    public Property getProperty(int index){
+    public PropertyBase getProperty(int index){
         return this.getPropertyList().get(index);
     }
 
     @Override
-    public MyThingModel addProperty(Property p) {
-        this.getPropertyList().add(p);
-        eventManager.push(new PropertyCreatedEvent("PropertyCreatedEvent"));
-        return this;
+    public void addProperty(PropertyBase p) {
+        propertyManager.addProperty(p);
     }
 
     @Override
-    protected Property getProperty(String key) {
-        List<Property<String, String>> properties= this.getPropertyList();
+    public PropertyBase getProperty(String key) {
+        List<PropertyBase> properties= this.getPropertyList();
         for(int i = 0; i<properties.size();i++){
-            if(properties.get(i).getKey().equals(key))
+            if(properties.get(i).getPropertyName().equals(key))
                 return properties.get(i);
         }
         return null;
     }
 
     @Override
-    protected void registerService(String action, String scriptPath) {
-        serviceManager.register(action, scriptPath);
+    public void registerService(ServiceBase service) {
+        serviceManager.register(service);
     }
 
     @Override
-    protected void executeService(String action) {
+    public void executeService(String action) {
         serviceManager.execute(action);
+    }
+
+    @Override
+    public void registerEvent(EventBase event) {
+        eventManager.registerEvent(event);
     }
 }

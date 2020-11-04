@@ -1,6 +1,5 @@
-package iot.qing;
+package iot.qing.utils;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class LogUtils {

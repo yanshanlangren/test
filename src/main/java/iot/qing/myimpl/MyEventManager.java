@@ -1,10 +1,9 @@
 package iot.qing.myimpl;
 
-import iot.qing.EventBase;
-import iot.qing.EventManagerBase;
-import iot.qing.LogUtils;
+import iot.qing.beans.EventBase;
+import iot.qing.interfaces.EventManagerBase;
+import iot.qing.utils.LogUtils;
 
-import java.time.LocalDateTime;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -49,5 +48,10 @@ public class MyEventManager implements EventManagerBase {
                 }
             }
         }.start();
+    }
+
+    @Override
+    public void registerEvent(EventBase event) {
+        //TODO do sth
     }
 }
